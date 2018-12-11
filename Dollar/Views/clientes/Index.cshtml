@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Dollar.Models.cliente>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>LISTADOS CLIENTES</h2>
+
+<div>
+    <p><a class="btn btn-light" href="https://localhost:44352/Home/Listados">REGRESAR</a></p>
+</div>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.apellido)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.telefono)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.producto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.producto1.precio)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ubicacion)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.apellido)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.telefono)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.producto1.nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.producto1.precio)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ubicacion1.continente1.descripcion)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.id_cliente }) |
+            @Html.ActionLink("Details", "Details", new { id = item.id_cliente }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.id_cliente })
+        </td>
+    </tr>
+}
+
+</table>

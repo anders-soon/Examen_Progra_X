@@ -1,0 +1,600 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DollarModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ciudad">
+          <Key>
+            <PropertyRef Name="id_ciudad" />
+          </Key>
+          <Property Name="id_ciudad" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="cliente">
+          <Key>
+            <PropertyRef Name="id_cliente" />
+          </Key>
+          <Property Name="id_cliente" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" />
+          <Property Name="apellido" Type="varchar" MaxLength="50" />
+          <Property Name="telefono" Type="varchar" MaxLength="50" />
+          <Property Name="producto" Type="int" />
+          <Property Name="ubicacion" Type="int" />
+        </EntityType>
+        <EntityType Name="continente">
+          <Key>
+            <PropertyRef Name="id_continente" />
+          </Key>
+          <Property Name="id_continente" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="pais">
+          <Key>
+            <PropertyRef Name="id_pais" />
+          </Key>
+          <Property Name="id_pais" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="producto">
+          <Key>
+            <PropertyRef Name="id_producto" />
+          </Key>
+          <Property Name="id_producto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="nchar" MaxLength="50" />
+          <Property Name="precio" Type="money" />
+          <Property Name="cantidad" Type="nchar" MaxLength="50" />
+          <Property Name="tipo_producto" Type="int" />
+        </EntityType>
+        <EntityType Name="reportes">
+          <Key>
+            <PropertyRef Name="id_reporte" />
+          </Key>
+          <Property Name="id_reporte" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="clientes" Type="int" />
+          <Property Name="servicios" Type="int" />
+        </EntityType>
+        <EntityType Name="servicios">
+          <Key>
+            <PropertyRef Name="id_servicios" />
+          </Key>
+          <Property Name="id_servicios" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tipo_servicio" Type="varchar" MaxLength="50" />
+          <Property Name="porcentaje" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="tipo_producto">
+          <Key>
+            <PropertyRef Name="id_tipo_producto" />
+          </Key>
+          <Property Name="id_tipo_producto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="ubicacion">
+          <Key>
+            <PropertyRef Name="id_ubicacion" />
+          </Key>
+          <Property Name="id_ubicacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="continente" Type="int" />
+          <Property Name="pais" Type="int" />
+          <Property Name="ciudad" Type="int" />
+        </EntityType>
+        <Association Name="Fk_ciudad">
+          <End Role="ciudad" Type="Self.ciudad" Multiplicity="0..1" />
+          <End Role="ubicacion" Type="Self.ubicacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ciudad">
+              <PropertyRef Name="id_ciudad" />
+            </Principal>
+            <Dependent Role="ubicacion">
+              <PropertyRef Name="ciudad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Fk_cliente_reporte">
+          <End Role="cliente" Type="Self.cliente" Multiplicity="0..1" />
+          <End Role="reportes" Type="Self.reportes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cliente">
+              <PropertyRef Name="id_cliente" />
+            </Principal>
+            <Dependent Role="reportes">
+              <PropertyRef Name="clientes" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Fk_continente">
+          <End Role="continente" Type="Self.continente" Multiplicity="0..1" />
+          <End Role="ubicacion" Type="Self.ubicacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="continente">
+              <PropertyRef Name="id_continente" />
+            </Principal>
+            <Dependent Role="ubicacion">
+              <PropertyRef Name="continente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Fk_pais">
+          <End Role="pais" Type="Self.pais" Multiplicity="0..1" />
+          <End Role="ubicacion" Type="Self.ubicacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="pais">
+              <PropertyRef Name="id_pais" />
+            </Principal>
+            <Dependent Role="ubicacion">
+              <PropertyRef Name="pais" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Fk_producto_cliente">
+          <End Role="producto" Type="Self.producto" Multiplicity="0..1" />
+          <End Role="cliente" Type="Self.cliente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="producto">
+              <PropertyRef Name="id_producto" />
+            </Principal>
+            <Dependent Role="cliente">
+              <PropertyRef Name="producto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Fk_servicios_reporte">
+          <End Role="servicios" Type="Self.servicios" Multiplicity="0..1" />
+          <End Role="reportes" Type="Self.reportes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="servicios">
+              <PropertyRef Name="id_servicios" />
+            </Principal>
+            <Dependent Role="reportes">
+              <PropertyRef Name="servicios" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Fk_tipo_producto_">
+          <End Role="tipo_producto" Type="Self.tipo_producto" Multiplicity="0..1" />
+          <End Role="producto" Type="Self.producto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tipo_producto">
+              <PropertyRef Name="id_tipo_producto" />
+            </Principal>
+            <Dependent Role="producto">
+              <PropertyRef Name="tipo_producto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Fk_ubicacion_ubicacion">
+          <End Role="ubicacion" Type="Self.ubicacion" Multiplicity="0..1" />
+          <End Role="cliente" Type="Self.cliente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ubicacion">
+              <PropertyRef Name="id_ubicacion" />
+            </Principal>
+            <Dependent Role="cliente">
+              <PropertyRef Name="ubicacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DollarModelStoreContainer">
+          <EntitySet Name="ciudad" EntityType="Self.ciudad" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="cliente" EntityType="Self.cliente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="continente" EntityType="Self.continente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="pais" EntityType="Self.pais" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="producto" EntityType="Self.producto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="reportes" EntityType="Self.reportes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="servicios" EntityType="Self.servicios" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tipo_producto" EntityType="Self.tipo_producto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ubicacion" EntityType="Self.ubicacion" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="Fk_ciudad" Association="Self.Fk_ciudad">
+            <End Role="ciudad" EntitySet="ciudad" />
+            <End Role="ubicacion" EntitySet="ubicacion" />
+          </AssociationSet>
+          <AssociationSet Name="Fk_cliente_reporte" Association="Self.Fk_cliente_reporte">
+            <End Role="cliente" EntitySet="cliente" />
+            <End Role="reportes" EntitySet="reportes" />
+          </AssociationSet>
+          <AssociationSet Name="Fk_continente" Association="Self.Fk_continente">
+            <End Role="continente" EntitySet="continente" />
+            <End Role="ubicacion" EntitySet="ubicacion" />
+          </AssociationSet>
+          <AssociationSet Name="Fk_pais" Association="Self.Fk_pais">
+            <End Role="pais" EntitySet="pais" />
+            <End Role="ubicacion" EntitySet="ubicacion" />
+          </AssociationSet>
+          <AssociationSet Name="Fk_producto_cliente" Association="Self.Fk_producto_cliente">
+            <End Role="producto" EntitySet="producto" />
+            <End Role="cliente" EntitySet="cliente" />
+          </AssociationSet>
+          <AssociationSet Name="Fk_servicios_reporte" Association="Self.Fk_servicios_reporte">
+            <End Role="servicios" EntitySet="servicios" />
+            <End Role="reportes" EntitySet="reportes" />
+          </AssociationSet>
+          <AssociationSet Name="Fk_tipo_producto_" Association="Self.Fk_tipo_producto_">
+            <End Role="tipo_producto" EntitySet="tipo_producto" />
+            <End Role="producto" EntitySet="producto" />
+          </AssociationSet>
+          <AssociationSet Name="Fk_ubicacion_ubicacion" Association="Self.Fk_ubicacion_ubicacion">
+            <End Role="ubicacion" EntitySet="ubicacion" />
+            <End Role="cliente" EntitySet="cliente" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DollarModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ciudad">
+          <Key>
+            <PropertyRef Name="id_ciudad" />
+          </Key>
+          <Property Name="id_ciudad" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ubicacion" Relationship="Self.Fk_ciudad" FromRole="ciudad" ToRole="ubicacion" />
+        </EntityType>
+        <EntityType Name="cliente">
+          <Key>
+            <PropertyRef Name="id_cliente" />
+          </Key>
+          <Property Name="id_cliente" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="telefono" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="producto" Type="Int32" />
+          <Property Name="ubicacion" Type="Int32" />
+          <NavigationProperty Name="reportes" Relationship="Self.Fk_cliente_reporte" FromRole="cliente" ToRole="reportes" />
+          <NavigationProperty Name="producto1" Relationship="Self.Fk_producto_cliente" FromRole="cliente" ToRole="producto" />
+          <NavigationProperty Name="ubicacion1" Relationship="Self.Fk_ubicacion_ubicacion" FromRole="cliente" ToRole="ubicacion" />
+        </EntityType>
+        <EntityType Name="continente">
+          <Key>
+            <PropertyRef Name="id_continente" />
+          </Key>
+          <Property Name="id_continente" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ubicacion" Relationship="Self.Fk_continente" FromRole="continente" ToRole="ubicacion" />
+        </EntityType>
+        <EntityType Name="pais">
+          <Key>
+            <PropertyRef Name="id_pais" />
+          </Key>
+          <Property Name="id_pais" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ubicacion" Relationship="Self.Fk_pais" FromRole="pais" ToRole="ubicacion" />
+        </EntityType>
+        <EntityType Name="producto">
+          <Key>
+            <PropertyRef Name="id_producto" />
+          </Key>
+          <Property Name="id_producto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="precio" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="cantidad" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="tipo_producto" Type="Int32" />
+          <NavigationProperty Name="cliente" Relationship="Self.Fk_producto_cliente" FromRole="producto" ToRole="cliente" />
+          <NavigationProperty Name="tipo_producto1" Relationship="Self.Fk_tipo_producto_" FromRole="producto" ToRole="tipo_producto" />
+        </EntityType>
+        <EntityType Name="reportes">
+          <Key>
+            <PropertyRef Name="id_reporte" />
+          </Key>
+          <Property Name="id_reporte" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="clientes" Type="Int32" />
+          <Property Name="servicios" Type="Int32" />
+          <NavigationProperty Name="cliente" Relationship="Self.Fk_cliente_reporte" FromRole="reportes" ToRole="cliente" />
+          <NavigationProperty Name="servicios1" Relationship="Self.Fk_servicios_reporte" FromRole="reportes" ToRole="servicios" />
+        </EntityType>
+        <EntityType Name="servicios">
+          <Key>
+            <PropertyRef Name="id_servicios" />
+          </Key>
+          <Property Name="id_servicios" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tipo_servicio" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="porcentaje" Type="Int32" />
+          <NavigationProperty Name="reportes" Relationship="Self.Fk_servicios_reporte" FromRole="servicios" ToRole="reportes" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tipo_producto">
+          <Key>
+            <PropertyRef Name="id_tipo_producto" />
+          </Key>
+          <Property Name="id_tipo_producto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="producto" Relationship="Self.Fk_tipo_producto_" FromRole="tipo_producto" ToRole="producto" />
+        </EntityType>
+        <EntityType Name="ubicacion">
+          <Key>
+            <PropertyRef Name="id_ubicacion" />
+          </Key>
+          <Property Name="id_ubicacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="continente" Type="Int32" />
+          <Property Name="pais" Type="Int32" />
+          <Property Name="ciudad" Type="Int32" />
+          <NavigationProperty Name="ciudad1" Relationship="Self.Fk_ciudad" FromRole="ubicacion" ToRole="ciudad" />
+          <NavigationProperty Name="cliente" Relationship="Self.Fk_ubicacion_ubicacion" FromRole="ubicacion" ToRole="cliente" />
+          <NavigationProperty Name="continente1" Relationship="Self.Fk_continente" FromRole="ubicacion" ToRole="continente" />
+          <NavigationProperty Name="pais1" Relationship="Self.Fk_pais" FromRole="ubicacion" ToRole="pais" />
+        </EntityType>
+        <Association Name="Fk_ciudad">
+          <End Role="ciudad" Type="Self.ciudad" Multiplicity="0..1" />
+          <End Role="ubicacion" Type="Self.ubicacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ciudad">
+              <PropertyRef Name="id_ciudad" />
+            </Principal>
+            <Dependent Role="ubicacion">
+              <PropertyRef Name="ciudad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Fk_cliente_reporte">
+          <End Role="cliente" Type="Self.cliente" Multiplicity="0..1" />
+          <End Role="reportes" Type="Self.reportes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cliente">
+              <PropertyRef Name="id_cliente" />
+            </Principal>
+            <Dependent Role="reportes">
+              <PropertyRef Name="clientes" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Fk_producto_cliente">
+          <End Role="producto" Type="Self.producto" Multiplicity="0..1" />
+          <End Role="cliente" Type="Self.cliente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="producto">
+              <PropertyRef Name="id_producto" />
+            </Principal>
+            <Dependent Role="cliente">
+              <PropertyRef Name="producto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Fk_ubicacion_ubicacion">
+          <End Role="ubicacion" Type="Self.ubicacion" Multiplicity="0..1" />
+          <End Role="cliente" Type="Self.cliente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ubicacion">
+              <PropertyRef Name="id_ubicacion" />
+            </Principal>
+            <Dependent Role="cliente">
+              <PropertyRef Name="ubicacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Fk_continente">
+          <End Role="continente" Type="Self.continente" Multiplicity="0..1" />
+          <End Role="ubicacion" Type="Self.ubicacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="continente">
+              <PropertyRef Name="id_continente" />
+            </Principal>
+            <Dependent Role="ubicacion">
+              <PropertyRef Name="continente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Fk_pais">
+          <End Role="pais" Type="Self.pais" Multiplicity="0..1" />
+          <End Role="ubicacion" Type="Self.ubicacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="pais">
+              <PropertyRef Name="id_pais" />
+            </Principal>
+            <Dependent Role="ubicacion">
+              <PropertyRef Name="pais" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Fk_tipo_producto_">
+          <End Role="tipo_producto" Type="Self.tipo_producto" Multiplicity="0..1" />
+          <End Role="producto" Type="Self.producto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tipo_producto">
+              <PropertyRef Name="id_tipo_producto" />
+            </Principal>
+            <Dependent Role="producto">
+              <PropertyRef Name="tipo_producto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Fk_servicios_reporte">
+          <End Role="servicios" Type="Self.servicios" Multiplicity="0..1" />
+          <End Role="reportes" Type="Self.reportes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="servicios">
+              <PropertyRef Name="id_servicios" />
+            </Principal>
+            <Dependent Role="reportes">
+              <PropertyRef Name="servicios" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DollarEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ciudad" EntityType="Self.ciudad" />
+          <EntitySet Name="cliente" EntityType="Self.cliente" />
+          <EntitySet Name="continente" EntityType="Self.continente" />
+          <EntitySet Name="pais" EntityType="Self.pais" />
+          <EntitySet Name="producto" EntityType="Self.producto" />
+          <EntitySet Name="reportes" EntityType="Self.reportes" />
+          <EntitySet Name="servicios" EntityType="Self.servicios" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="tipo_producto" EntityType="Self.tipo_producto" />
+          <EntitySet Name="ubicacion" EntityType="Self.ubicacion" />
+          <AssociationSet Name="Fk_ciudad" Association="Self.Fk_ciudad">
+            <End Role="ciudad" EntitySet="ciudad" />
+            <End Role="ubicacion" EntitySet="ubicacion" />
+          </AssociationSet>
+          <AssociationSet Name="Fk_cliente_reporte" Association="Self.Fk_cliente_reporte">
+            <End Role="cliente" EntitySet="cliente" />
+            <End Role="reportes" EntitySet="reportes" />
+          </AssociationSet>
+          <AssociationSet Name="Fk_producto_cliente" Association="Self.Fk_producto_cliente">
+            <End Role="producto" EntitySet="producto" />
+            <End Role="cliente" EntitySet="cliente" />
+          </AssociationSet>
+          <AssociationSet Name="Fk_ubicacion_ubicacion" Association="Self.Fk_ubicacion_ubicacion">
+            <End Role="ubicacion" EntitySet="ubicacion" />
+            <End Role="cliente" EntitySet="cliente" />
+          </AssociationSet>
+          <AssociationSet Name="Fk_continente" Association="Self.Fk_continente">
+            <End Role="continente" EntitySet="continente" />
+            <End Role="ubicacion" EntitySet="ubicacion" />
+          </AssociationSet>
+          <AssociationSet Name="Fk_pais" Association="Self.Fk_pais">
+            <End Role="pais" EntitySet="pais" />
+            <End Role="ubicacion" EntitySet="ubicacion" />
+          </AssociationSet>
+          <AssociationSet Name="Fk_tipo_producto_" Association="Self.Fk_tipo_producto_">
+            <End Role="tipo_producto" EntitySet="tipo_producto" />
+            <End Role="producto" EntitySet="producto" />
+          </AssociationSet>
+          <AssociationSet Name="Fk_servicios_reporte" Association="Self.Fk_servicios_reporte">
+            <End Role="servicios" EntitySet="servicios" />
+            <End Role="reportes" EntitySet="reportes" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DollarModelStoreContainer" CdmEntityContainer="DollarEntities">
+          <EntitySetMapping Name="ciudad">
+            <EntityTypeMapping TypeName="DollarModel.ciudad">
+              <MappingFragment StoreEntitySet="ciudad">
+                <ScalarProperty Name="id_ciudad" ColumnName="id_ciudad" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="cliente">
+            <EntityTypeMapping TypeName="DollarModel.cliente">
+              <MappingFragment StoreEntitySet="cliente">
+                <ScalarProperty Name="id_cliente" ColumnName="id_cliente" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="apellido" ColumnName="apellido" />
+                <ScalarProperty Name="telefono" ColumnName="telefono" />
+                <ScalarProperty Name="producto" ColumnName="producto" />
+                <ScalarProperty Name="ubicacion" ColumnName="ubicacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="continente">
+            <EntityTypeMapping TypeName="DollarModel.continente">
+              <MappingFragment StoreEntitySet="continente">
+                <ScalarProperty Name="id_continente" ColumnName="id_continente" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="pais">
+            <EntityTypeMapping TypeName="DollarModel.pais">
+              <MappingFragment StoreEntitySet="pais">
+                <ScalarProperty Name="id_pais" ColumnName="id_pais" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="producto">
+            <EntityTypeMapping TypeName="DollarModel.producto">
+              <MappingFragment StoreEntitySet="producto">
+                <ScalarProperty Name="id_producto" ColumnName="id_producto" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="precio" ColumnName="precio" />
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+                <ScalarProperty Name="tipo_producto" ColumnName="tipo_producto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="reportes">
+            <EntityTypeMapping TypeName="DollarModel.reportes">
+              <MappingFragment StoreEntitySet="reportes">
+                <ScalarProperty Name="id_reporte" ColumnName="id_reporte" />
+                <ScalarProperty Name="clientes" ColumnName="clientes" />
+                <ScalarProperty Name="servicios" ColumnName="servicios" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="servicios">
+            <EntityTypeMapping TypeName="DollarModel.servicios">
+              <MappingFragment StoreEntitySet="servicios">
+                <ScalarProperty Name="id_servicios" ColumnName="id_servicios" />
+                <ScalarProperty Name="tipo_servicio" ColumnName="tipo_servicio" />
+                <ScalarProperty Name="porcentaje" ColumnName="porcentaje" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="DollarModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tipo_producto">
+            <EntityTypeMapping TypeName="DollarModel.tipo_producto">
+              <MappingFragment StoreEntitySet="tipo_producto">
+                <ScalarProperty Name="id_tipo_producto" ColumnName="id_tipo_producto" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ubicacion">
+            <EntityTypeMapping TypeName="DollarModel.ubicacion">
+              <MappingFragment StoreEntitySet="ubicacion">
+                <ScalarProperty Name="id_ubicacion" ColumnName="id_ubicacion" />
+                <ScalarProperty Name="continente" ColumnName="continente" />
+                <ScalarProperty Name="pais" ColumnName="pais" />
+                <ScalarProperty Name="ciudad" ColumnName="ciudad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

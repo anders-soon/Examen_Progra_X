@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Dollar.Models.ubicacion>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>LISTADO UBICACIÓN</h2>
+
+<div>
+    <p><a class="btn btn-light" href="https://localhost:44352/Home/Listados">REGRESAR</a></p>
+</div>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ciudad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.continente)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.pais)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ciudad1.descripcion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.continente1.descripcion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.pais1.descripcion)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id_ubicacion }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id_ubicacion }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id_ubicacion })
+        </td>
+    </tr>
+}
+
+</table>
