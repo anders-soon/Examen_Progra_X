@@ -13,6 +13,7 @@ using Dollar.Models;
 namespace Dollar.Controllers
 {
     [Authorize]
+
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
